@@ -2,7 +2,6 @@ import 'package:counter_bloc/features/bloc_example/bloc/example_bloc.dart';
 import 'package:counter_bloc/features/bloc_example/bloc_example.dart';
 import 'package:counter_bloc/features/bloc_freezed_example/bloc_freezed/example_freezed_bloc.dart';
 import 'package:counter_bloc/features/bloc_freezed_example/bloc_freezed_example.dart';
-import 'package:counter_bloc/features/contacts/delete/bloc/contact_delete_bloc.dart';
 import 'package:counter_bloc/features/contacts/list/bloc/contact_list_bloc.dart';
 import 'package:counter_bloc/features/contacts/list/contacts_list_page.dart';
 import 'package:counter_bloc/features/contacts/register/bloc/contact_register_bloc.dart';
@@ -54,19 +53,10 @@ class MyApp extends StatelessWidget {
                     ExampleFreezedBloc()..add(ExampleFreezedEvent.findNames()),
                 child: const BlocFreezedExample(),
               ),
-          '/contacts/list': (context) => MultiBlocProvider(
-                providers: [
-                  BlocProvider(
-                    create: (_) => ContactListBloc(
-                      repository: context.read<ContactRepository>(),
-                    )..add(const ContactListEvent.findAll()),
-                  ),
-                  BlocProvider(
-                    create: (_) => ContactDeleteBloc(
-                      repository: context.read<ContactRepository>(),
-                    ),
-                  ),
-                ],
+          '/contacts/list': (context) => BlocProvider(
+                create: (_) => ContactListBloc(
+                  repository: context.read<ContactRepository>(),
+                )..add(const ContactListEvent.findAll()),
                 child: const ContactsListPage(),
               ),
           '/contacts/register': (context) => BlocProvider(

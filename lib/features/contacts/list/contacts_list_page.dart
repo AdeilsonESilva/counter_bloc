@@ -1,4 +1,3 @@
-import 'package:counter_bloc/features/contacts/delete/bloc/contact_delete_bloc.dart';
 import 'package:counter_bloc/features/contacts/list/bloc/contact_list_bloc.dart';
 import 'package:counter_bloc/models/contact_model.dart';
 import 'package:counter_bloc/widgets/loader.dart';
@@ -23,55 +22,28 @@ class ContactsListPage extends StatelessWidget {
         },
         child: const Icon(Icons.add),
       ),
-      body: MultiBlocListener(
-        listeners: [
-          BlocListener<ContactListBloc, ContactListState>(
-            listenWhen: (previous, current) {
-              return current.maybeWhen(
-                error: (error) => true,
-                orElse: () => false,
+      body: BlocListener<ContactListBloc, ContactListState>(
+        listenWhen: (previous, current) {
+          return current.maybeWhen(
+            error: (error) => true,
+            orElse: () => false,
+          );
+        },
+        listener: (context, state) {
+          state.whenOrNull(
+            error: (error) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    error,
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  backgroundColor: Colors.red,
+                ),
               );
             },
-            listener: (context, state) {
-              state.whenOrNull(
-                error: (error) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        error,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
-                },
-              );
-            },
-          ),
-          BlocListener<ContactDeleteBloc, ContactDeleteState>(
-            listenWhen: (previous, current) {
-              return current.maybeWhen(
-                error: (error) => true,
-                orElse: () => false,
-              );
-            },
-            listener: (context, state) {
-              state.whenOrNull(
-                error: (error) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        error,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
-                },
-              );
-            },
-          ),
-        ],
+          );
+        },
         child: RefreshIndicator(
           onRefresh: () async => context
               .read<ContactListBloc>()
@@ -139,15 +111,10 @@ class ContactsListPage extends StatelessWidget {
                                                 onPressed: () {
                                                   Navigator.pop(context);
                                                   context
-                                                      .read<ContactDeleteBloc>()
-                                                      .add(ContactDeleteEvent
+                                                      .read<ContactListBloc>()
+                                                      .add(ContactListEvent
                                                           .delete(
                                                               id: contact.id!));
-                                                  context
-                                                      .read<ContactListBloc>()
-                                                      .add(
-                                                          const ContactListEvent
-                                                              .findAll());
                                                 },
                                               ),
                                               ElevatedButton(
