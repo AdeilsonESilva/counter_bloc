@@ -19,7 +19,7 @@ class ContactRepository {
         data: model.toJson());
   }
 
-  Future<void> delete(String id) async {
+  Future<void> delete(int id) async {
     await Dio().delete('http://192.168.1.138:8080/contacts/$id');
   }
 }
