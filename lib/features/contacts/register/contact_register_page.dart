@@ -103,7 +103,7 @@ class _ContactRegisterPageState extends State<ContactRegisterPage> {
                       orElse: () => false,
                     );
                   },
-                )
+                ),
               ],
             ),
           ),
