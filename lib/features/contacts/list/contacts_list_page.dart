@@ -14,8 +14,11 @@ class ContactsListPage extends StatelessWidget {
         title: const Text('Contact List'),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/contacts/register');
+        onPressed: () async {
+          final contactListBloc = context.read<ContactListBloc>();
+
+          await Navigator.pushNamed(context, '/contacts/register');
+          contactListBloc.add(const ContactListEvent.findAll());
         },
         child: const Icon(Icons.add),
       ),
@@ -69,6 +72,7 @@ class ContactsListPage extends StatelessWidget {
                       builder: (_, contacts) {
                         return ListView.builder(
                           shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: contacts.length,
                           itemBuilder: (context, index) {
                             final contact = contacts[index];
