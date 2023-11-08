@@ -6,7 +6,7 @@ class ContactModel {
   final String email;
 
   ContactModel({
-    required this.id,
+    this.id,
     required this.name,
     required this.email,
   });

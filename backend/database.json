@@ -1,9 +1,1 @@
-{
-  "contacts": [
-    {
-      "id": 1,
-      "name": "Adeilson Silva",
-      "email": "adeilson@gmail.com"
-    }
-  ]
-}
+{"contacts":[{"id":1,"name":"Adeilson Silva","email":"adeilson@gmail.com"},{"id":2,"name":"teste","email":"teste@teste.com"},{"id":3,"name":"teste","email":"teste"},{"id":4,"name":"a","email":"a"},{"id":5,"name":"c","email":"c"}]}
