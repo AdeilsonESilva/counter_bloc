@@ -67,6 +67,15 @@ class HomePage extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
             ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed('/contacts/cubit/list');
+              },
+              child: Text(
+                'Contact Cubit',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+            ),
           ],
         ),
       ),
