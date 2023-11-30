@@ -7,6 +7,10 @@ import 'package:mocktail/mocktail.dart';
 
 class MockContactRepository extends Mock implements ContactRepository {}
 
+extension VoidAnswer on When<Future<void>> {
+  void thenAnswerWithVoid() => thenAnswer((_) async {});
+}
+
 void main() {
   // declaração
   late ContactRepository repository;
@@ -26,7 +30,7 @@ void main() {
   blocTest<ContactListCubit, ContactListCubitState>(
     'Deve buscar os contatos cubit',
     build: () => cubit,
-    act: (bloc) => cubit.findAll(),
+    act: (cubit) => cubit.findAll(),
     setUp: () {
       when(
         () => repository.findAll(),
@@ -41,10 +45,52 @@ void main() {
   blocTest<ContactListCubit, ContactListCubitState>(
     'Deve retornar erro ao buscar contatos',
     build: () => cubit,
-    act: (bloc) => cubit.findAll(),
+    act: (cubit) => cubit.findAll(),
     expect: () => [
       ContactListCubitState.loading(),
       ContactListCubitState.error(error: 'Erro ao buscar contatos'),
     ],
   );
+
+  /* blocTest<ContactListCubit, ContactListCubitState>(
+    'Deve excluir um contato',
+    build: () => cubit,
+    act: (cubit) => cubit.deleteById(1),
+    setUp: () {
+      when(
+        () => repository.delete(any()),
+      ).thenAnswer(
+        (_) async {
+          contacts.removeAt(0);
+          return;
+        },
+      );
+      when(
+        () => repository.findAll(),
+      ).thenAnswer((_) async => contacts);
+    },
+    expect: () {
+      return [
+        ContactListCubitState.loading(),
+        ContactListCubitState.data(contacts: contacts),
+      ];
+    },
+  );
+
+  blocTest<ContactListCubit, ContactListCubitState>(
+    'Deve retornar erro ao excluir um contato',
+    build: () => cubit,
+    act: (cubit) => cubit.deleteById(1),
+    setUp: () {
+      when(
+        () => repository.delete(any()),
+      ).thenThrow(() {
+        return Exception();
+      });
+    },
+    expect: () => [
+      ContactListCubitState.loading(),
+      ContactListCubitState.error(error: 'Erro ao excluir o contato'),
+    ],
+  ); */
 }
